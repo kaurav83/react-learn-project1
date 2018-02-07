@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
+import {findDOMNode} from 'react-dom';
 import PropTypes from 'prop-types';
 import CommentList from './CommentList';
-import toggleOpen from '../decorators/toggleOpen';
+// import toggleOpen from '../decorators/toggleOpen';
+import {CSSTransitionGroup} from 'react-transition-group';
+import './article.css';
 
 class Article extends Component {
     static propTypes = {
@@ -9,15 +12,11 @@ class Article extends Component {
             id: PropTypes.string.isRequired,
             title: PropTypes.string.isRequired,
             text: PropTypes.string
-        }).isRequired
+        }).isRequired,
+        isOpen: PropTypes.bool,
+        toggleOpen: PropTypes.func
     }
 
-    // constructor(props) { - перенесли состояние в декоратор (toggleOpen.js, внутрь класса WrapperComponent)
-    //     super(props);
-    //     this.state = {
-    //         isOpen: false
-    //     }
-    // }
     componentWillReceiveProps(nextProps) {
         console.log('---', 'updating', this.props.isOpen, nextProps.isOpen);
     }
@@ -28,15 +27,22 @@ class Article extends Component {
 
     render() {
         const {article, isOpen, toggleOpen} = this.props;
+        console.log(this.props, 'this.props');
         // const {isOpen} = this.state; - передали isOpen в объект строкой выше, чтобы он читался не из стейтов, а из props
         return (
             <div ref = {this.setContainerRef}>
                 <h3>{article.title}</h3>
                 {/* <button onClick = {this.toggleOpen}>{isOpen ? 'open' : 'close'}</button> */}
                 <button onClick = {toggleOpen}>
-                    {isOpen ? 'open' : 'close'}
+                    {isOpen ? 'close' : 'open'}
                 </button>
-                {this.getBody()}
+                <CSSTransitionGroup
+                    transitionName = 'article'
+                    transitionEnterTimeout = {300}
+                    transitionLeaveTimeout = {300}
+                >
+                    {this.getBody()}    
+                </CSSTransitionGroup>
             </div> 
         )
     }
@@ -58,9 +64,13 @@ class Article extends Component {
         return (
             <section>
                 {article.text}
-                <CommentList comments = {article.comments} />
+                <CommentList comments = {article.comments} ref = {this.setCommentsRef} />
             </section>
         )
+    }
+
+    setCommentsRef = ref => {
+        console.log('---', findDOMNode(ref));
     }
 
     // toggleOpen = (ev) => { - перенесли в декоратор (toggleOpen.js) WrapperComponent

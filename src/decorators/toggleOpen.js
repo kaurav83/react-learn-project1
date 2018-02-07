@@ -6,8 +6,8 @@ export default (OriginalComponent) => class WrapperComponent extends ReactCompon
     }
     
     render() {
-        return <OriginalComponent {...this.props} /* {...this.state} или isOpen = {this.state.isOpen} */ 
-        isOpen = {this.state.isOpen} toggleOpen = {this.toggleOpen} />
+        // return <OriginalComponent {...this.props} isOpen = {this.state.isOpen} toggleOpen = {this.toggleOpen} />
+        return <OriginalComponent {...this.props} {...this.state} toggleOpen = {this.toggleOpen} ref = {this.getRef}/>
     }
 
     toggleOpen = (ev) => {
@@ -15,5 +15,8 @@ export default (OriginalComponent) => class WrapperComponent extends ReactCompon
         this.setState({
             isOpen: !this.state.isOpen
         })
+    }
+    getRef = (ref) => {
+        console.log('---', ref)
     }
 }
