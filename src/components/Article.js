@@ -5,6 +5,8 @@ import CommentList from './CommentList';
 // import toggleOpen from '../decorators/toggleOpen';
 import {CSSTransitionGroup} from 'react-transition-group';
 import './article.css';
+import {deleteArticle} from '../AC/index';
+import {connect} from 'react-redux';
 
 class Article extends Component {
     static propTypes = {
@@ -36,6 +38,7 @@ class Article extends Component {
                 <button onClick = {toggleOpen}>
                     {isOpen ? 'close' : 'open'}
                 </button>
+                <button onClick = {this.handleDelete}>Delete</button>
                 <CSSTransitionGroup
                     transitionName = 'article'
                     transitionEnterTimeout = {300}
@@ -45,6 +48,12 @@ class Article extends Component {
                 </CSSTransitionGroup>
             </div> 
         )
+    }
+
+    handleDelete = () => {
+        const {deleteArticle, article} = this.props;
+        deleteArticle(article.id);
+        console.log('---', 'deleting article');
     }
 
     setContainerRef = ref => {
@@ -81,4 +90,4 @@ class Article extends Component {
     // }
 }
 
-export default Article;
+export default connect(null, {deleteArticle}) (Article);
