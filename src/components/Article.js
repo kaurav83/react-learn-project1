@@ -5,8 +5,9 @@ import CommentList from './CommentList';
 // import toggleOpen from '../decorators/toggleOpen';
 import {CSSTransitionGroup} from 'react-transition-group';
 import './article.css';
-import {deleteArticle} from '../AC/index';
+import {deleteArticle, loadArticle} from '../AC/index';
 import {connect} from 'react-redux';
+import Loader from './Loader';
 
 class Article extends Component {
     static propTypes = {
@@ -19,13 +20,21 @@ class Article extends Component {
         toggleOpen: PropTypes.func
     }
 
-    componentWillReceiveProps(nextProps) {
-        console.log('---', 'updating', this.props.isOpen, nextProps.isOpen);
+    state = {
+        updateIndex: 0
     }
 
-    componentWillMount() {
-        console.log('---', 'mounting');
+    // componentWillReceiveProps(nextProps) {
+    //     console.log('---', 'updating', this.props.isOpen, nextProps.isOpen);
+    // }
+
+    componentWillReceiveProps({isOpen, loadArticle, article}) {
+        if (isOpen && !article.text && !article.loading) loadArticle(article.id)
     }
+
+    // componentWillMount() {
+    //     console.log('---', 'mounting');
+    // }
 
     render() {
         const {article, isOpen, toggleOpen} = this.props;
@@ -61,26 +70,28 @@ class Article extends Component {
         console.log('---', ref);
     }
 
-    componentDidMount() {
-        console.log('---', 'mounted');
-    }
+    // componentDidMount() {
+    //     console.log('---', 'mounted');
+    // }
 
     getBody() {
         const {article, isOpen} = this.props;
         // if (!this.state.isOpen) return null
         if (!isOpen) return null
         // const {article} = this.props;
+        if (article.loading) return <Loader/>
         return (
             <section>
                 {article.text}
-                <CommentList comments = {article.comments} ref = {this.setCommentsRef} />
+                <button onClick = {() => this.setState({updateIndex: this.state.updateIndex + 1})}>update</button>
+                <CommentList article = {article} ref = {this.setCommentsRef} key = {this.state.updateIndex} />
             </section>
         )
     }
 
-    setCommentsRef = ref => {
-        console.log('---', findDOMNode(ref));
-    }
+    // setCommentsRef = ref => {
+    //     console.log('---', ref);
+    // }
 
     // toggleOpen = (ev) => { - перенесли в декоратор (toggleOpen.js) WrapperComponent
     //     ev.preventDefault();
@@ -90,4 +101,4 @@ class Article extends Component {
     // }
 }
 
-export default connect(null, {deleteArticle}) (Article);
+export default connect(null, { deleteArticle, loadArticle })(Article);
