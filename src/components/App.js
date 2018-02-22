@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import ArticleList from './ArticleList';
+import Articles from './routes/Articles';
 import UserForm from './UserForm';
 import Select from 'react-select';
 import Filters from './Filters';
@@ -29,7 +29,7 @@ class App extends Component {
                     {/* <Filters articles = {[]} /> */}
                     <Route path="/filters" component = {Filters} />
                     {/* <ArticleList /> */}
-                    <Route path="/articles" component = {ArticleList} />
+                    <Route path="/articles" component = {Articles} />
                 </div>
             </Router>
         )
