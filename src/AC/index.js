@@ -5,6 +5,7 @@ import {DELETE_ARTICLE,
         ADD_COMMENT,
         LOAD_ALL_ARTICLES,
         LOAD_ARTICLE,
+        LOAD_ARTICLE_COMMENTS,
         START,
         SUCCESS,
         FAIL} from '../constants';
@@ -79,3 +80,11 @@ export function loadArticle(id) {
 //         callAPI: `/api/article/${id}`
 //     };
 // }
+
+export function loadArticleComments(articleId) {
+    return {
+        type: LOAD_ARTICLE_COMMENTS,
+        payload: {articleId},
+        callAPI: `/api/comment?article=${articleId}`
+    };
+}

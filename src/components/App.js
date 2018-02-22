@@ -6,6 +6,7 @@ import Select from 'react-select';
 import Filters from './Filters';
 import Counter from './Counter';
 import 'react-select/dist/react-select.css';
+import {HashRouter as Router, Route} from 'react-router-dom';
 
 class App extends Component {
     static propTypes = {
@@ -14,12 +15,17 @@ class App extends Component {
 
     render() {
         return (
-            <div>
-                <Counter />
-                <UserForm />
-                <Filters articles = {[]} />
-                <ArticleList />
-            </div>
+            <Router>
+                <div>
+                    {/* <Counter /> */}
+                    <UserForm />
+                    <Route path="/counter" component = {Counter} />
+                    {/* <Filters articles = {[]} /> */}
+                    <Route path="/filters" component = {Filters} />
+                    {/* <ArticleList /> */}
+                    <Route path="/articles" component = {ArticleList} />
+                </div>
+            </Router>
         )
     }
 }

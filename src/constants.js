@@ -17,3 +17,5 @@ export const SUCCESS = 'SUCCESS';
 export const FAIL = 'FAIL';
 
 export const LOAD_ARTICLE = 'LOAD_ARTICLE';
+
+export const LOAD_ARTICLE_COMMENTS = 'LOAD_ARTICLE_COMMENTS'
