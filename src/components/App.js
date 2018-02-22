@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Articles from './routes/Articles';
+import NotFound from './routes/NotFound';
 import UserForm from './UserForm';
 import Select from 'react-select';
 import Filters from './Filters';
 import Counter from './Counter';
 import 'react-select/dist/react-select.css';
-import {HashRouter as Router, Route, NavLink} from 'react-router-dom';
+import {BrowserRouter as Router, Switch, Route, NavLink} from 'react-router-dom';
 
 class App extends Component {
     static propTypes = {
@@ -25,11 +26,14 @@ class App extends Component {
                     </div>
                     {/* <Counter /> */}
                     <UserForm />
-                    <Route path="/counter" component = {Counter} />
-                    {/* <Filters articles = {[]} /> */}
-                    <Route path="/filters" component = {Filters} />
-                    {/* <ArticleList /> */}
-                    <Route path="/articles" component = {Articles} />
+                    <Switch>
+                        <Route path="/counter" component = {Counter} />
+                        {/* <Filters articles = {[]} /> */}
+                        <Route path="/filters" component = {Filters} />
+                        {/* <ArticleList /> */}
+                        <Route path="/articles" component = {Articles} />
+                        <Route path="*" component = {NotFound} />
+                    </Switch>
                 </div>
             </Router>
         )

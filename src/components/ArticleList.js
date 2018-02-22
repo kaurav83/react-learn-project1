@@ -25,7 +25,7 @@ class ArticleList extends Component {
         if (loading) return <Loader />
         console.log(this.props, 'from ArticleList.js')
         const articleElements = articles.map(article => <li key={article.id}>
-            <NavLink to = {`/articles/${article.id}`} activeStyle = {{color: "green"}}>
+            <NavLink to = {`/articles/${article.id}`} activeStyle = {{color: "green"}} key={article.id}>
                 {article.title}
             </NavLink>
         </li>)
